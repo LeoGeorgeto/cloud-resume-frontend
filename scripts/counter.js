@@ -1,16 +1,18 @@
-// This will be updated later with API integration
-const countElement = document.getElementById('visitor-count');
+const visitorCount = document.getElementById('visitor-count');
+const apiUrl = 'https://ydvppb79v0.execute-api.us-east-1.amazonaws.com/prod/count';
 
-// Placeholder function until we set up the backend
 async function updateVisitorCount() {
     try {
-        // This will be replaced with actual API call
-        countElement.textContent = 'API not connected yet';
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        visitorCount.textContent = data.count;
     } catch (error) {
         console.error('Error updating visitor count:', error);
-        countElement.textContent = 'Error loading count';
+        visitorCount.textContent = 'Error loading count';
     }
 }
 
-// Call the function when the page loads
 document.addEventListener('DOMContentLoaded', updateVisitorCount);
