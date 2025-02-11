@@ -1,5 +1,7 @@
+# GitHub Actions workflow for frontend deployment
 name: Frontend Deploy
 
+# Trigger the workflow on push or pull request to main branch
 on:
   push:
     branches:
@@ -8,19 +10,25 @@ on:
     branches:
       - main
 
+# Define the deployment job
 jobs:
   deploy:
+    # Use latest Ubuntu runner
     runs-on: ubuntu-latest
     steps:
+      # Check out the repository code
       - uses: actions/checkout@v2
 
+      # Configure AWS credentials for deployment
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
+          # Use repository secrets for secure credential storage
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      # Sync files to S3 bucket
       - name: Deploy to S3
         run: |
           aws s3 sync . s3://leogeo-cloudresume.com/ \
@@ -29,6 +37,7 @@ jobs:
             --exclude ".github/*" \
             --exclude "README.md"
 
+      # Invalidate CloudFront cache to ensure latest content is served
       - name: Create CloudFront Invalidation
         run: |
           aws cloudfront create-invalidation \
