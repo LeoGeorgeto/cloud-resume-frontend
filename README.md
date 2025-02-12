@@ -1,148 +1,118 @@
-# Cloud Resume Frontend
+# **Cloud Resume Challenge - Frontend**
 
-## Overview
-This repository contains the frontend implementation of the **Cloud Resume Challenge**. It features a responsive, modern resume website with an integrated visitor counter, automated deployments, and CDN delivery.
+A fully responsive, static frontend for the Cloud Resume Challenge, deployed on **AWS S3** and distributed via **CloudFront**. This frontend integrates with the **serverless backend API** to track visitor counts in real-time.
 
-## Directory Structure
+---
+
+## 🚀 **Features**
+
+- **Static Hosting on AWS S3**: Uses S3 for secure, scalable website hosting.
+- **Global CDN via CloudFront**: Ensures fast, low-latency delivery worldwide.
+- **Visitor Counter Integration**: Fetches and updates visitor count via an **AWS API Gateway + Lambda function**.
+- **CI/CD Automation**: Uses **GitHub Actions** for deployment and CloudFront cache invalidation.
+- **Responsive Design**: Optimized for **mobile, tablet, and desktop**.
+
+---
+
+## 📂 **Project Structure**
 
 ```
 cloud-resume-frontend/
-├── .github/
-│   └── workflows/           # GitHub Actions
-│       └── frontend-deploy.yml
-├── scripts/
-│   └── counter.js          # Visitor counter implementation
-├── styles/
-│   └── main.css           # CSS styling
-└── index.html             # Main resume page
+│
+├── .github/workflows/              # GitHub Actions workflows
+│   ├── frontend-deploy.yml          # CI/CD pipeline for frontend deployment
+│
+├── scripts/                         # JavaScript logic
+│   ├── counter.js                   # Visitor counter API integration
+│
+├── styles/                          # Styling and layout files
+│   ├── main.css                      # Responsive design and UI styles
+│
+├── index.html                        # Main static webpage (resume)
+├── README.md                         # Project documentation
 ```
 
-## Features
-- **Responsive Design**
-- **Real-time Visitor Counter**
-- **Automated Deployments**
-- **CDN Integration**
-- **HTTPS Security**
-- **Cross-browser Compatibility**
+---
 
-## Technologies Used
-- **HTML5**
-- **CSS3**
-- **JavaScript (ES6+)**
-- **AWS S3** (hosting)
-- **AWS CloudFront** (CDN)
-- **GitHub Actions** (CI/CD)
+## 🛠 **Technologies Used**
+
+### **Frontend Development**
+- **HTML5 & CSS3** – Structured and styled resume webpage.
+- **JavaScript (ES6)** – Fetches API data and dynamically updates visitor count.
+- **AWS S3** – Serves static files securely.
+- **AWS CloudFront** – CDN for low-latency, global content delivery.
+
+### **Deployment & CI/CD**
+- **GitHub Actions** – Automates deployments to S3.
+- **AWS CLI** – Syncs website files and manages CloudFront cache invalidation.
 
 ---
 
-## Local Development
+## 🔧 **Setup and Deployment**
 
-1. **Clone the repository**:
+### **Prerequisites**
+Ensure you have the following installed:
+- **AWS CLI** – For interacting with AWS services.
+- **Git** – Version control system.
 
-   ```bash
-   git clone [repository-url]
-   cd cloud-resume-frontend
-   ```
-
-2. **Open `index.html`** in your browser to view the site locally.
-
-3. **Make changes** to the following files as needed:
-
-   - `index.html`: For content updates
-   - `styles/main.css`: For styling changes
-   - `scripts/counter.js`: For visitor counter functionality
-
----
-
-## Deployment
-
-The site automatically deploys to AWS when changes are pushed to the **main** branch.
-
-### Prerequisites
-Ensure the following secrets are configured in **GitHub**:
-
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
-- `CLOUDFRONT_DISTRIBUTION_ID`
-
-### Deployment Process
-
-1. **Push changes** to the **main** branch.
-2. **GitHub Actions** workflow:
-   - Authenticates with AWS
-   - Syncs files to S3
-   - Invalidates the CloudFront cache
-
-### Manual Deployment
-If necessary, deploy manually using the AWS CLI:
-
+### **1. Clone the Repository**
 ```bash
-# Sync files to S3
-aws s3 sync . s3://[bucket-name]/ --exclude ".git/*" --exclude ".github/*"
+git clone <repository-url>
+cd cloud-resume-frontend
+```
 
-# Invalidate CloudFront cache
-aws cloudfront create-invalidation --distribution-id [distribution-id] --paths "/*"
+### **2. Configure AWS Credentials**
+```bash
+aws configure
+```
+
+### **3. Deploy to S3**
+```bash
+aws s3 sync . s3://leogeo-cloudresume.com/ --delete --exclude ".git/*" --exclude ".github/*" --exclude "README.md"
+```
+
+### **4. Invalidate CloudFront Cache**
+```bash
+aws cloudfront create-invalidation --distribution-id <CLOUDFRONT_DISTRIBUTION_ID> --paths "/*"
 ```
 
 ---
 
-## Components
+## 📦 **Available Resources**
 
-### Resume Content (`index.html`)
-- Professional information
-- Work experience
-- Skills and certifications
-- Education
-- Contact details
-
-### Styling (`styles/main.css`)
-- Responsive layout
-- Professional color scheme
-- Typography optimization
-- Print-friendly styling
-
-### Visitor Counter (`scripts/counter.js`)
-- Real-time count updates
-- Error handling
-- API integration
-- CORS support
+| Resource             | Description                                |
+|---------------------|--------------------------------------------|
+| `index.html`       | Main resume page.                         |
+| `scripts/counter.js` | Fetches visitor count via API Gateway.    |
+| `styles/main.css`  | Defines layout, fonts, and responsiveness. |
+| `GitHub Actions`   | Automates deployment to AWS S3.            |
 
 ---
 
-## Best Practices
+## 🚨 **Troubleshooting**
 
-- **Semantic HTML**
-- **Mobile-first design**
-- **Accessibility compliance**
-- **Performance optimization**
-- **Clean code structure**
-- **Automated deployments**
-
----
-
-## Performance Considerations
-
-- Minified CSS
-- Optimized images
-- CDN delivery
-- Browser caching
-- Compressed resources
+### **Common Issues & Fixes**
+| Issue | Solution |
+|--------|----------|
+| Changes not showing | Run `aws cloudfront create-invalidation --distribution-id <ID> --paths "/*"`. |
+| AWS CLI errors | Ensure AWS credentials are correctly configured (`aws configure`). |
 
 ---
 
-## Security
+## 📝 **License**
 
-- **HTTPS enforcement**
-- **Content security headers**
-- **Secure API integration**
-- **Protected AWS credentials**
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-## Browser Support
+## 🙌 **Acknowledgments**
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+- Inspired by the **Cloud Resume Challenge** by Forrest Brazeal.
+- Built using **AWS Serverless Technologies** for hands-on cloud experience.
 
+---
+
+## 👨‍💻 **Author**
+
+**Leonardo Georgeto**  
+[LinkedIn](https://linkedin.com/in/georgetol) | [GitHub](https://github.com/LeoGeorgeto) | [Resume](https://leogeo-cloudresume.com/) | [Portfolio](https://leogeorgeto.com/)
